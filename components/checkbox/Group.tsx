@@ -22,7 +22,7 @@ export interface CheckboxOptionType<T extends CheckboxValueType = CheckboxValueT
   required?: boolean;
 }
 
-export interface AbstractCheckboxGroupProps<T extends CheckboxValueType> {
+export interface AbstractCheckboxGroupProps<T extends CheckboxValueType = CheckboxValueType> {
   prefixCls?: string;
   className?: string;
   rootClassName?: string;
@@ -31,7 +31,7 @@ export interface AbstractCheckboxGroupProps<T extends CheckboxValueType> {
   style?: React.CSSProperties;
 }
 
-export interface CheckboxGroupProps<T extends CheckboxValueType>
+export interface CheckboxGroupProps<T extends CheckboxValueType = CheckboxValueType>
   extends AbstractCheckboxGroupProps<T> {
   name?: string;
   defaultValue?: Array<T>;
@@ -39,7 +39,7 @@ export interface CheckboxGroupProps<T extends CheckboxValueType>
   onChange?: (checkedValue: Array<T>) => void;
   children?: React.ReactNode;
 }
-const InternalGroup = <T extends CheckboxValueType>(
+const CheckboxGroup = React.forwardRef(<T extends CheckboxValueType>(
   props: CheckboxGroupProps<T>,
   ref: React.ForwardedRef<HTMLDivElement>,
 ) => {
@@ -159,12 +159,9 @@ const InternalGroup = <T extends CheckboxValueType>(
       <GroupContext.Provider value={context}>{childrenNode}</GroupContext.Provider>
     </div>,
   );
-};
+});
 
 export type { CheckboxGroupContext } from './GroupContext';
 export { GroupContext };
 
-const CheckboxGroup = <T extends CheckboxValueType>(props: CheckboxGroupProps<T>) =>
-  React.forwardRef<HTMLDivElement, CheckboxGroupProps<T>>(InternalGroup)(props);
-
-export default React.memo(CheckboxGroup);
+export default CheckboxGroup;
